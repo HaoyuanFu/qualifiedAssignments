@@ -1,0 +1,119 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{listings}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+
+\pagestyle{plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+\title{Assignment 1 Report}
+\author{Your Name and macid}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+Introductory blurb.
+
+\section{Testing of the Original Program}
+
+Description of approach to testing.  Rationale for test case selection.  Summary
+of results.  Any problems uncovered through testing.
+
+\section{Results of Testing Partner's Code}
+
+Summary of results.
+
+\section{Discussion of Test Results}
+
+\subsection{Problems with Original Code}
+
+\subsection{Problems with Partner's Code}
+
+\subsection{Problems with Assignment Specification}
+
+\section{Answers}
+
+\begin{enumerate}
+
+\item For each of the methods in each of the classes, please classify it as a
+  constructor, accessor or mutator.
+
+Answer
+
+\item What are the advantages and disadvantages of using an external library
+  like \texttt{numpy}?
+
+Answer
+
+\item The \texttt{SeqT} class overlaps with the functionality provided by
+  Python's in-built list type.  What are the differences between \texttt{SeqT}
+  and Python's list type?  What benefits does Python's list type provide over
+  the \texttt{SeqT} class?
+
+Answer
+
+\item What complications would be added to your code if the assumption that
+  $x_i < x_{i+1}$ no longer applied?
+
+Answer
+
+\item Will \texttt{linVal(x)} equal \texttt{npolyVal(n, x)} for the same \texttt{x}
+  value?  Why or why not?
+
+Answer
+\end{enumerate}
+
+\newpage
+
+\lstset{language=Python, basicstyle=\tiny, breaklines=true, showspaces=false,
+  showstringspaces=false, breakatwhitespace=true}
+%\lstset{language=C,linewidth=.94\textwidth,xleftmargin=1.1cm}
+
+\def\thesection{\Alph{section}} 
+
+\section{Code for SeqADT.py}
+
+\noindent \lstinputlisting{../src/SeqADT.py}
+
+\newpage
+
+\section{Code for CurveADT.py}
+
+\noindent \lstinputlisting{../src/CurveADT.py}
+
+\newpage
+
+\section{Code for testSeqs.py}
+
+\noindent \lstinputlisting{../src/testSeqs.py}
+
+\newpage
+
+\section{Code for Partner's SeqADT.py}
+
+\noindent \lstinputlisting{../partner/SeqADT.py}
+
+\newpage
+
+\section{Code for Partner's CurveADT.py}
+
+\noindent \lstinputlisting{../partner/CurveADT.py}
+
+\newpage
+
+\section{Makefile}
+
+\lstset{language=make}
+\noindent \lstinputlisting{../Makefile}
+
+\end{document}
