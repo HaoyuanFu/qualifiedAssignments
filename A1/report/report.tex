@@ -15,32 +15,29 @@
 \newcounter{stepnum}
 
 \title{Assignment 1 Report}
-\author{Your Name and macid}
+\author{Haoyuan(Harry) Fu fuh6}
 \date{\today}
 
 \begin{document}
 
 \maketitle
-
-Introductory blurb.
+Itroductory blurb.
 
 \section{Testing of the Original Program}
+In my testSeqs.py testing file, I used at least three “good cases” and two “bad cases” for every function in my two modules which are SeqADT.py and CurveADT.py. The “Good cases” are recalling every function with inputs in expected range, “bad cases are inputs without the right range. For linVal and quadVal, these two functions that need input test txt file, I created a temporary txt file in my test file, it makes user don’t need to create test txt file every time. For the testing of the original program, after I do make test testSeqs.py, it gives me my expected output which is all the test of functions are passed. After I checked my test file again, I don’t think I still have any uncovered problem I need to solve.
 
-Description of approach to testing.  Rationale for test case selection.  Summary
-of results.  Any problems uncovered through testing.
 
 \section{Results of Testing Partner's Code}
-
-Summary of results.
+At the first time I ran my test file on my partner’s code I got all the functions’ test failed and raised a type error. But I realized that there might be some problem with my test file which I will explain later in the discussion part. After I changed my test file, I got all the SeqADT’s functions are passed individually but stopped at CurveADT and generate the same type error.
 
 \section{Discussion of Test Results}
 
 \subsection{Problems with Original Code}
-
+The original code passed every individual function test and worked correctly, so there is no any problem with the original code. But during my coding process, there are several problems with assignment specification which I will talk about later.
 \subsection{Problems with Partner's Code}
-
+During the first time I ran my test file on my partner’s code, I got almost all the individual functions in SeqADT failed, but after I checked my test case and my partner’s code, I found that I my test file I used some try statements for “bad cases” and raise an assertion error and use except statement to pass IndexError and print test failed except AssertionError, ValueError and IndexError. That’s because I had already raised IndexError in every individual function in my SeqADT to make sure all the functions can work correctly. But my partner’s code did not raise the IndexError and cause a test failed. After I commented all the “bad cases” in my test file, it generated all the functions in SeqADT are passed but still have TypeError in my partner’s CurveADT module. After I checked my partner’s code, I found that he didn’t raised a ValueError in his indexInSeq function. It causes that when he want to sign the value of indexInSeq to a variable i, this variable became a Nonetype, and Nonetype can’t do any addition with an integer and then generate the TypeError. I think this is a possible problem in my partner’s code.
 \subsection{Problems with Assignment Specification}
-
+I found there are two problems with assignment specification during my coding process. One of them is all the exceptions of functions are not mentioned in the assignment. For example, the add(i) function in SeqADT module, if the input value i is a negative number the whole function will generate an error, so I raised exception for every function in my assignment to make sure all the functions can work correctly. The second problem is for the linval and quadVal function, the description of the value of x1 and x2 are not clearly defined. We know that there should be at least three data for points, at least on data points to the left of x and at least one points to the right, but we have no idea of which side would determine the result of y. this would cause several different methods to create this function. 
 \section{Answers}
 
 \begin{enumerate}
@@ -49,11 +46,17 @@ Summary of results.
   constructor, accessor or mutator.
 
 Answer
+\\Constructor: SeqT(), CurveT()
+\\Accessor: get(), size(), indexInSeq()
+\\Mutator: add(), rm(), set(), linVal(), quadVal(), npolyVal()
+
 
 \item What are the advantages and disadvantages of using an external library
   like \texttt{numpy}?
 
 Answer
+\\The advantages of using numpy is that numpy has lots of built-in function that can be directly used to write a complex function. For example, in our assignment, the npolyVal is hard to solve if we are using the python built-in functions, but since we import numpy, we can just use polyfit and poly1d to solve it directly. So, using the numpy is an efficient way to solve some complex questions or equations.
+The disadvantage of using numpy is it’s not portable. Since programs would be run on many different computers, and every user has their different operating system, downloading the source file of external library could be an inefficient problem. Also, if other programmer hasn’t used this external library before, it’s hard to them to figure out how this function work. This will cause a time wasting.
 
 \item The \texttt{SeqT} class overlaps with the functionality provided by
   Python's in-built list type.  What are the differences between \texttt{SeqT}
@@ -61,16 +64,18 @@ Answer
   the \texttt{SeqT} class?
 
 Answer
+\\The difference between SeqT and Python’s in-built list is that for SeqT, we used a constructor to make it only use the methods that are defined in the class CurveT. But basically, the SeqT is based on Python’s built-in list function, so except it is a kind of “private” method it’s still do what the python’s list can do. The benefit that the python’s list is it is a built-in function. We can use this function anywhere anytime we want to. It is much easier than defining a class to create a list. Also, it is more intuitive than SeqT wrapper for list. The SeqT class was built to achieve the module CurveADT.
 
 \item What complications would be added to your code if the assumption that
   $x_i < x_{i+1}$ no longer applied?
 
 Answer
-
+\\If the assumption does not apply, it means that the input values would have no orders, so it will become an unsorted list. We have to pay more attention and time to sort this list to a sorted list to make sure our program run correctly. Or we have to find a searching algorithm to make sure we can find the exact value we want. 
 \item Will \texttt{linVal(x)} equal \texttt{npolyVal(n, x)} for the same \texttt{x}
   value?  Why or why not?
 
 Answer
+\\The linVal(x) function and npolyVal(n,x) function will not generate same value if the x is equal. The linVal is calculated by only two reference values but npolyVal is calculated the whole list of value. So npolyVal is more accurate than linVal.
 \end{enumerate}
 
 \newpage
