@@ -16,3 +16,8 @@
 .DS_Store
 *.idb
 *.pdb
+latex
+html
+src/__pycache__
+src/html
+src/latex
