@@ -16,3 +16,10 @@
 .DS_Store
 *.idb
 *.pdb
+latex/
+html/
+*.d
+*.o
+*.exe
+*/bin/*
+!*/bin/.gitkeep
