@@ -107,7 +107,7 @@ N/A
 
 \subsubsection* {Exported Types}
 
-\wss{What should be written here?}
+PointT = ?
 
 \subsubsection* {Exported Access Programs}
 
@@ -129,8 +129,8 @@ translate & $\mathbb{Z}$, $\mathbb{Z}$ & PointT & ~\\
 
 \subsubsection* {State Variables}
 
-$xc$: \wss{What is the type of the state variables?}\\
-$yc$: \wss{What is the type of the state variables?}
+$xc$: $\mathbb{Z}$\\
+$yc$: $\mathbb{Z}$
 
 \subsubsection* {State Invariant}
 
@@ -146,7 +146,7 @@ an existing object.
 
 PointT($x, y$):
 \begin{itemize}
-\item transition: \wss{What should the state transition be for the constructor?}
+\item transition: xc, yc := x, y
 \item output: $out := \mathit{self}$
 \item exception: None
 \end{itemize}
@@ -159,14 +159,14 @@ PointT($x, y$):
 
 \noindent y():
 \begin{itemize}
-\item \wss{What should go here?}
+\item output: $out := yc$
 \item exception: None
 \end{itemize}
 
 \noindent translate($\Delta x$, $\Delta y$):
 \begin{itemize}
-\item \wss{What should go here?}
-\item exception: \wss{What should go here?}
+\item output: x+ $\Delta x$, y + $\Delta y$
+\item exception: None
 \end{itemize}
 
 \newpage
@@ -179,7 +179,7 @@ LineT
 
 \subsection* {Uses}
 
-\wss{What should go here?}
+PointT, CompassT, RotateT, 
 
 \subsection* {Syntax}
 
@@ -201,7 +201,7 @@ end & ~ & PointT & ~\\
 \hline
 orient & ~ & CompassT & ~\\
 \hline
- len & ~ & $\mathbb{Z}$ & ~\\
+ len & ~ & $\mathbb{N}$ & ~\\
 \hline
 flip & ~ & LineT & ~\\
 \hline
@@ -235,19 +235,18 @@ LineT($st, ornt, l$):
 \begin{itemize}
 \item transition: $s, o, L := st, ornt, l$
 \item output: $out := \mathit{self}$
-\item exception: \wss{Write the spec for an exception when the length of the line is 0}
+\item exception: exc := (L = 0 $\implies$ invalid\_argument)
 \end{itemize}
 
 \noindent strt():
 \begin{itemize}
-\item output: $out := \mbox{PointT}(st.x, st.y)$
+\item output: $out := \mbox{PointT}(s.x(), s.y())$
 \item exception: None
 \end{itemize}
 
 \noindent end():
 \begin{itemize}
-\item output: \wss{Write the spec for returning the end point of the
-    line.}
+\item output: $out := \{o = N \implies \mbox{PointT}(s.x, s.y + L) | o = S \implies \mbox{PointT}(s.x, s.y - L) | o = E \implies \mbox{PointT}(s.x + L, s.y) o = W \implies \mbox{PointT}(s.x - L, s.y)\}$
 
 \item exception: None
 \end{itemize}
@@ -266,10 +265,7 @@ LineT($st, ornt, l$):
 
 \noindent flip():
 \begin{itemize}
-\item output: \wss{Write the spec for returning a new line that is the mirror
-    image of the current line.  That is, the start point and length of the new
-    line will remain the same, but the orientation will be changed by 180
-    degrees}
+\item output: $out := \{o = N \implies \mbox{LineT}(st, S, l)|o = S \implies \mbox{LineT}(st, N, l)|o = W \implies \mbox{LineT}{st, E, l}|o = E \implies \mbox{LineT}(st, W, l)\}$
 \item exception: None
 \end{itemize}
 
@@ -280,21 +276,21 @@ LineT($st, ornt, l$):
 \hhline{~|~|-|}
 \multicolumn{1}{r}{} & \multicolumn{1}{r|}{} & \multicolumn{1}{l|}{$out :=$}\\
 \hhline{|-|-|-|}
-$r = \mbox{CW}$ & $o = \mbox{N}$ & \wss{?}\\
+$r = \mbox{CW}$ & $o = \mbox{N}$ & LineT(st, E, l)\\
 \hhline{|~|-|-|}
-~ & $o = \mbox{S}$ & \wss{?}\\
+~ & $o = \mbox{S}$ & LineT(st, W, l)\\
 \hhline{|~|-|-|}
-~ & $o = \mbox{W}$ & \wss{?}\\
+~ & $o = \mbox{W}$ & LineT(st, N, l)\\
 \hhline{|~|-|-|}
-~ & $o = \mbox{E}$ & \wss{?}\\
+~ & $o = \mbox{E}$ & LineT(st, S, l)\\
 \hhline{-|-|-|}
-$r = \mbox{CCW}$ & $o = \mbox{N}$ & \wss{?}\\
+$r = \mbox{CCW}$ & $o = \mbox{N}$ & LineT(st, W, l)\\
 \hhline{|~|-|-|}
-~ & $o = \mbox{S}$ & \wss{?}\\
+~ & $o = \mbox{S}$ & LineT(st, E, l)\\
 \hhline{|~|-|-|}
-~ & $o = \mbox{W}$ & \wss{?}\\
+~ & $o = \mbox{W}$ & LineT(st, S, l)\\
 \hhline{|~|-|-|}
-~ & $o = \mbox{E}$ & \wss{?}\\
+~ & $o = \mbox{E}$ & LineT(st, N, l)\\
 \hhline{-|-|-|}
 \end{tabular}
 
@@ -303,7 +299,7 @@ $r = \mbox{CCW}$ & $o = \mbox{N}$ & \wss{?}\\
 
 \noindent translate($\Delta x$, $\Delta y$):
 \begin{itemize}
-\item output: \wss{Add the missing spec}
+\item output: $$\forall(i: \mathbb{N} | i \in [0..|s|-1] : s'[i] = s[i].\mbox{translate}(\Delta x, \Delta y))$$
 \item exception: None
 \end{itemize}
 
@@ -345,7 +341,7 @@ size & ~ & $\mathbb{N}$ & \\
 \hline
  len & ~ & $\mathbb{N}$ & ~\\
 \hline
-translate & $\mathbb{Z}$, $\mathbb{Z}$ & LineT  & ~\\
+translate & $\mathbb{Z}$, $\mathbb{Z}$ & PathT  & ~\\
 \hline
 \end{tabular}
 
@@ -372,50 +368,43 @@ an existing object.
 
 PathT($st, ornt, l$):
 \begin{itemize}
-\item transition: \wss{What is the spec to add the first element to the sequence
-  of LineT?}
+\item transition: s[0] = [st, ornt, l]
 \item output: $out := \mathit{self}$
 \item exception: None
 \end{itemize}
 
 \noindent append($ornt, l$):
 \begin{itemize}
-\item transition: \wss{What is the missing specification?  The appended line
-    starts at a point adjacent to the end point of the previous line in the
-    direction $ornt$.  The lines are not allowed to
-    overlap.}
-\item exception: \wss{What is the specification for the exception?  An exception
-    should be generated if the introduced line overlaps with any of the previous
-    points in the existing path.}
+\item transition: $o = N \implies LineT(adjPt(ornt), o, l)|o = S \implies LineT(adjPt(ornt), o, l)|o = W \implies LineT(adjPt(ornt), o, l)|o = E \implies LineT(adjPt(ornt), o, l)$
+\item exception: $exc := (l = 0) \implies invalid\_argument$
 \end{itemize}
 
 \noindent strt():
 \begin{itemize}
-\item output: \wss{What is the missing spec?}
+\item output: out := s[0].strt()
 \item exception: None
 \end{itemize}
 
 \noindent end():
 \begin{itemize}
-\item output: \wss{What is the missing spec?}
-\item exception: None
+\item output: $out := s[|s| - 1]$
 \end{itemize}
 
 \noindent line($i$):
 \begin{itemize}
-\item output: \wss{Returns the ith line in the sequence.  What is the missing spec?}
-\item exception: \wss{Generate the exception if the index is not in the sequence.}
+\item output: out := s[i]
+\item exception: $exc := (\neg (0 \leq i < |s|) \implies InvalidIndex)$
 \end{itemize}
 
 \noindent size:
 \begin{itemize}
-\item output: \wss{Output the number of lines in the path.}
+\item output: out := s[i]
 \item exception: None
 \end{itemize}
 
 \noindent len:
 \begin{itemize}
-\item output: \wss{Output the number of points on the line.}
+\item output: $out := +(\forall(i : \mathbb{N} | i \in [0..|s|-1]: pointsInLine(s[i])))$
 \item exception: None
 \end{itemize}
 
@@ -433,8 +422,10 @@ pointsInLine: $\mbox{LineT} \rightarrow \mbox{(set of PointT)}$\\
 \noindent pointsInLine ($l$) 
 \begin{multline*}
 \equiv \{ i: \mathbb{N} | i \in [0
-  .. (l.\mbox{len} - 1)] : l.\mbox{strt}.\mbox{translate}.(
-\end{multline*} (\wss{Complete the spec.}
+  .. (l.\mbox{len} - 1)] : l.\mbox{strt}.\mbox{translate}.\\
+( o = S \implies l.strt.translate(0, -i)|o = N \implies strt.translate(0, i) \\
+| l.o = E \implies strt.translate(i, 0)| l.o = W \implies strt.translate(-i, 0))
+\end{multline*} 
 
 \noindent adjPt: $\mbox{CompassT} \rightarrow \mbox{PointT}$\\
 adjPt$(ornt) \equiv$
@@ -443,13 +434,13 @@ adjPt$(ornt) \equiv$
 
 \begin{tabular}{|l|l|}
 \hline
-$ornt = \mbox{N}$ & $s[|s|-1].\mbox{end}.\mbox{translate}\wss{?}$\\
+$ornt = \mbox{N}$ & $s[|s|-1].\mbox{end}.\mbox{translate}\ {0, 1}$\\
 \hline
-$ornt = \mbox{S}$ & $s[|s|-1].\mbox{end}.\mbox{translate}\wss{?}$\\
+$ornt = \mbox{S}$ & $s[|s|-1].\mbox{end}.\mbox{translate}\ {0, -1}$\\
 \hline
-$ornt = \mbox{W}$ & $s[|s|-1].\mbox{end}.\mbox{translate}\wss{?}$\\
+$ornt = \mbox{W}$ & $s[|s|-1].\mbox{end}.\mbox{translate}\ {-1, 0}$\\
 \hline
-$ornt = \mbox{E}$ & $s[|s|-1].\mbox{end}.\mbox{translate}\wss{?}$\\
+$ornt = \mbox{E}$ & $s[|s|-1].\mbox{end}.\mbox{translate}\ {1, 0}$\\
 \hline
 \end{tabular}
 
@@ -463,7 +454,7 @@ Seq2D(T)
 
 \subsection* {Uses}
 
-N/A
+MapTypes, PointT, LineT, PathT
 
 \subsection* {Syntax}
 
@@ -536,26 +527,21 @@ called once.
 
 Seq2D($S$, scl):
 \begin{itemize}
-\item transition: \wss{Fill in the transition.}
+\item transition:s, scale := S, scl
 \item output: $\mathit{out} := \mathit{self}$
-\item exception: \wss{Fill in the exception.  One should be generated if the
-    scale is less than zero, or the input sequence is empty, or the number of
-    columns is zero in the first row, or the number of columns in any row is
-    different from the number of columns in the first row.}
+\item exception: $exc := scl = 0 \implies invalid\_argument | |S| = 0 \implies invalid\_argument$
 \end{itemize}
 
 \noindent set($p, v$):
 \begin{itemize}
-\item transition: \wss{?}
-\item exception: \wss{Generate an exception if the point lies outside of the
-    map.}
+\item transition: s[p.y][p.x] := v
+\item exception: $exc := (ValidPoint(p) \not\equiv true) \implies outside\_bounds$
 \end{itemize}
 
 \noindent get($p$):
 \begin{itemize}
-\item output: \wss{?}
-\item exception: \wss{Generate an exception if the point lies outside of the
-    map.}
+\item output: s[p.y][p.x]
+\item exception: $exc := (ValidPoint(p) \not\equiv true) \implies outside\_bounds$
 \end{itemize}
 
 \noindent getNumRow():
@@ -578,65 +564,51 @@ Seq2D($S$, scl):
 
 \noindent count($t$: T):
 \begin{itemize}
-\item output: \wss{Count the number of times the value $t$ occurs in the 2D
-    sequence.}
+\item output: $out := +(i, j :\mathbb{N} | 0 \leq i < nRow \land 0 \leq j < nCol \land s[i][j] \equiv t :1)$
 \item exception: None
 \end{itemize}
 
 \noindent count($l$: LineT, $t$: T):
 \begin{itemize}
-\item output: \wss{Count the number of times the value $t$ occurs in the line
-    $l$.}
-\item exception: \wss{Exception if any point on the line lies off of the 2D
-    sequence (map)}
+\item output: $out := +(p : PointT | (p \in pointsInLine(l)\land get(p)) \equiv t :1)$
+\item exception: $exc := (ValidLine(p) \not\equiv true) \implies outside\_bounds$
 \end{itemize}
 
 \noindent count($\mathit{pth}$: PathT, $t$: T):
 \begin{itemize}
-\item output: \wss{Count the number of times the value $t$ occurs in the path
-    $pth$.}
-\item exception: \wss{Exception if any point on the path lies off of the 2D
-    sequence (map)}
+\item output:$out := +(p : PointT | (p \in pointsInPath(pth)\land get(p)) \equiv t :1)$
+\item exception: $exc := (ValidPath(p) \not\equiv true) \implies outside\_bounds$
 \end{itemize}
 
 \noindent length($\mathit{pth}$: PathT):
 \begin{itemize}
-\item output: \wss{Use the scale to find the length of the
-    path.}
-\item exception: \wss{Exception if any point on the path lies off of the 2D
-    sequence (map)}
+\item output: out := pth.size() * s.getScale()
+\item exception: $exc := (ValidPoint(p) \not\equiv true) \implies outside\_bounds$
 \end{itemize}
 
 \noindent connected($p_1$: PointT, $p_2$: PointT):
 \begin{itemize}
-\item output: \wss{Return true if a path exists between $p_1$ and $p_2$ with all
-    of the points on the path being of the same value.}
-\item exception: \wss{Return an exception if either of the input points is not
-    valid.}
+\item output: $out := (\exists p = pointsInPath(PathT)| p_1< p < p_2) \implies true$
+\item exception:  $exc := (ValidPoint(p_1) \not\equiv true \land ValidPoint(p_2) \not\equiv true) \implies invalid\_argument$
 
 \end{itemize}
 
 \subsection*{Local Functions}
 
 \noindent validRow: $\mathbb{N} \rightarrow \mathbb{B}$\\
-\noindent \wss{returns true if the given natural number is a valid row
-  number.}\\
+\noindent $\forall i | i \in \mathbb{N} : i \implies true$\\
 
 \noindent validCol: $\mathbb{N} \rightarrow \mathbb{B}$\\
-\noindent \wss{returns true if the given natural number is a valid column
-  number.}\\
+\noindent $\forall i | i \in \mathbb{N} : i \implies true$\\
 
 \noindent validPoint: $\mbox{PointT} \rightarrow \mathbb{B}$\\
-\noindent \wss{Returns true if the given point lies within the boundaries of the
-  map.}\\
+\noindent $(0 \leq p.x < nCol \land 0 	\leq p.y < nRow) \implies true$\\
 
 \noindent validLine: $\mbox{LineT} \rightarrow \mathbb{B}$\\
-\noindent \wss{Returns true if all of the points for the given line lie within the boundaries of the
-  map.}\\
+\noindent $((P = pointsInLine(LineT). (\forall i|i\in [0..|P|-1])) : validPoint(P[i]) \implies true$
 
 \noindent validPath: $\mbox{PathT} \rightarrow \mathbb{B}$\\
-\noindent \wss{Returns true if all of the points for the given path lie within the boundaries of the
-  map.}\\
+\noindent $((P = pointsInPath(PathT). (\forall i|i\in [0..|P|-1])) : validPoint(P[i]) \implies true$
 
 \noindent pointsInLine: $\mbox{LineT} \rightarrow \mbox{(set of PointT)}$\\
 \noindent pointsInLine ($l$) 
@@ -665,6 +637,10 @@ DEMT is Seq2D($\mathbb{Z}$)
 \section*{Critique of Design}
 
 Write a critique of the interface for the modules in this project.  Is there
-anything missing?  Is there anything you would consider changing?  Why?
+anything missing?  Is there anything you would consider changing?  Why?\\
+
+The module implementations of different directions(ornt) in both LineADT and PathADT are not very specific, different ornts would cause differernt
+lines to be generated.\\
+The exceptions are not include all situations for seq2D module, the invalid\_argument exceptions could be more specific. 
 
 \end {document}
