@@ -30,7 +30,7 @@ int main()
   // This will ensure that your interface has the correct syntax and will be
   // compatible with our unit tests that we will run for grading.
   
-  /*
+  
   
   {
     LanduseT l = Recreational;
@@ -120,8 +120,7 @@ int main()
     c = lum.length(PathT(PointT(0, 0), N, 1));
     bool e = lum.connected(PointT(0, 0), PointT(0, 0));
   }
-  
-  */
+
   
   return 0;
 }
