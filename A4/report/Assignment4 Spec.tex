@@ -1,0 +1,682 @@
+\documentclass[12pt,fleqn]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+\renewcommand\baselinestretch{1.0}
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+\title{Assignment 4}
+\author{COMP SCI 2ME3 and SFWR ENG 2AA4\\\\Harry Fu}
+
+\begin {document}
+
+\maketitle
+
+Specifications of this freecell game are split across six modules: Card, Cell, Pile, Foundation, Mover and Deck. Card modules provide basic access to starting a game. Card provides the card class declaration, and make sure all the cards' suit and rank can fit this game. Cell and Pile modules are taking card type to do all the conditions and return bool types to construct cells and piles. The foundation module, taking card type as well and accept a card to construct foundation. Cell, Pile and foundation modules both based on the card module. The Mover module uses cell, pile and foundation modules, it takes card type and return bool type to check can a card be moved between cell and pile and can this card be moved between pile and foundation. After the checking process, mover module will move this card between pile and cell or between pile and foundation and it returns bool type if the movement is successful or failing. The last one is Deck module, it checks wheather game is over. The cards adn their order in foundations must meet the corresponding game rules. The cards and their order in piles must meet the corresponding game rules. The number of all cards must be 52 and no duplicate card allowed. Deck module takes pile, cell and foundation types and check if there has any movement can be done between pile, cell and foundation. Then Deck module will show that the player is won or not. 
+
+\section* {Card Module}
+
+\subsection* {Template Module}
+
+Card
+
+\subsection* {Uses}
+
+N/A
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+$Suits = \{ SC, SD, SH, SS \}$\\
+$Ranks = \{ RA, R2, R3, R4, R5, R6, R7, R8, R9, R10, RJ, RQ, RK \}$\\
+
+\subsubsection* {Exported Types}
+Card = ?
+
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Card & Suits, Ranks  & Card & \\
+\hline
+getSuit & ~ & Suit & ~\\
+\hline
+getRank & ~ & Rank & ~\\
+\hline
+sameColor & ~ & boolean & ~\\
+\hline
+smallerByOne & ~ & boolean & ~\\
+
+\hline 
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+$s$: Suits \\
+$r$: integer\\
+ 
+
+\subsubsection* {State Invariant}
+None
+
+\subsubsection* {Assumptions}
+None
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent Card ($\mathit{Suit S},\mathit{Ranks R}$):
+\begin{itemize}
+\item transition: $s, r := S, R$
+\item output: $out := \mathit{self}$
+\item exception: None
+\end{itemize}
+
+\noindent getSuit ()
+\begin{itemize}
+\item output: $out := s$
+\item exception: None
+\end{itemize}
+
+\noindent getRanks ()
+\begin{itemize}
+\item output: $out := r$
+\item exception: None
+\end{itemize}
+
+\subsubsection*{Local Functions}
+
+\noindent sameColor (c): Card $\rightarrow$ boolean
+\begin{itemize}
+\item sameColor(Card c) $\equiv$ $\{s : Suit | switch (s)(s = SC \Rightarrow c.s \equiv SC \lor c.s \equiv SS|s = SD \Rightarrow c.s \equiv SD \lor c.s \equiv SH|
+s = SH \Rightarrow c.s \equiv SD \lor c.s \equiv SH| s = SS \Rightarrow c.s \equiv SC \lor c.s \equiv SS)\}$
+\end{itemize}
+
+
+\noindent smallerByOne (c): Card $\rightarrow$ boolean
+\begin{itemize}
+\item smallerByOne (c) $\equiv$ $\{r: Rank| (c.r - r = 1) \Rightarrow True\}$
+\end{itemize}
+
+
+\section* {Cell Module}
+
+\subsection* {Template Module}
+
+Cell
+
+\subsection* {Uses}
+
+Card
+
+\subsection* {Syntax}
+
+
+\subsubsection* {Exported Types}
+
+Cell = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+ Cell & ~ & Card & ~\\
+\hline
+empty & ~ & boolean &  \\
+\hline
+gerCard &  & Card & emtpy\_source raises if cell is empty\\
+\hline
+chkAcceptCard & Card & boolean & \\
+\hline 
+acceptCard & Card & boolean & \\
+\hline 
+popCard &  & Card & emtpy\_source raises for cell is empty\\
+\hline 
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+
+$c$: Card \\
+
+\subsubsection* {State Invariant}
+$e$: boolean // True\\ 
+
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent Cell ():
+\begin{itemize}
+\item output: $out := e(true), c(\{Card.SC, Card.RA\})$
+\end{itemize}
+
+\noindent empty ()
+\begin{itemize}
+\item output: $out := (e : True | Cell \equiv \epsilon \Rightarrow e)$
+\end{itemize}
+
+\noindent getCard ()
+\begin{itemize}
+\item output: $out:= Card$
+\item exception: $exec: Card \equiv \epsilon \Rightarrow emtpy\_source$
+\end{itemize}
+
+
+\noindent chkAcceptCard(C)
+\begin{itemize}
+\item output: $out := (e :True| Cell \equiv \epsilon \Rightarrow e)$
+\end{itemize}
+
+\noindent acceptCard(C)
+\begin{itemize}
+\item output: $out := \{e: Boolean | ((Cell \equiv \epsilon \Rightarrow (e = false))\Rightarrow c = C)\Rightarrow True\}$
+\end{itemize}
+
+\noindent popCard()
+\begin{itemize}
+\item output: $out:= e$
+\item exception: $exec: Cell \equiv \epsilon \Rightarrow emtpy\_source$
+\end{itemize}
+
+
+
+\section* {Pile}
+
+\subsection* {Module}
+
+Pile
+
+\subsection* {Uses}
+
+Card
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Types}
+
+Pile = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Pile & ~ & ~ & ~\\
+\hline
+size & ~ & integer & ~\\
+\hline
+empty & ~ & boolean & ~\\
+\hline
+assignCard & Card & ~ & ~\\
+\hline
+chkAcceptCard & Card & boolean & ~\\
+\hline
+acceptCard & Card & boolean &  ~\\
+\hline
+getCard & integer & Card & emtpy\_source,invalid\_index\\
+\hline
+popCard & ~ & ~& emtpy\_source\\
+\hline
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+$cards$ :sequence of Card
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent empty()
+\begin{itemize}
+\item output: $out := (pile \equiv \epsilon \Rightarrow True)$
+\end{itemize}
+
+\noindent assignCard(c):
+\begin{itemize}
+\item transition: $c := cards$
+\end{itemize}
+
+\noindent chkAcceptCard(c):
+\begin{itemize}
+\item output: $out := (cards \equiv \epsilon \Rightarrow True)$  
+\end{itemize}
+
+\noindent acceptCard(c):
+\begin{itemize}
+\item output: $\{(cards \equiv \epsilon \Rightarrow (cards = c))\Rightarrow True)\}$
+\end{itemize}
+
+\noindent getCard(i):
+\begin{itemize}
+\item output: $cards[i]$
+\item exception: $exec := \{(pile \equiv \epsilon \Rightarrow emtpy\_source),(i < 0 \lor i > |cards| \Rightarrow invalid\_index)\}$
+\end{itemize}
+
+\noindent popCard():
+\begin{itemize}
+\item output: cards
+\item exception :$exec := (pile \equiv \epsilon \Rightarrow emtpy\_source)$
+\end{itemize}
+
+
+\section* {Foundation}
+
+\subsection* {Module}
+
+Foundation
+
+\subsection* {Uses}
+
+Card
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Types}
+Foundation = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Foundation & ~ & ~ & ~\\
+\hline
+size & ~ & integer & ~\\
+\hline
+empty & ~ & boolean & ~\\
+\hline
+chkAcceptCard & Card & boolean & ~\\
+\hline
+acceptCard & Card & boolean &  ~\\
+\hline
+getCard & integer & Card & emtpy\_source,invalid\_index\\
+\hline
+popCard & ~ & ~& emtpy\_source\\
+\hline
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+$cards$ :seqence of Card
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent : empty()
+\begin{itemize}
+\item output: $out := (foundation \equiv \epsilon \Rightarrow True)$
+\end{itemize}
+
+
+\noindent chkAcceptCard(c):
+\begin{itemize}
+\item output: $out := (cards \equiv \epsilon \Rightarrow True)$  
+\end{itemize}
+
+\noindent acceptCard(c):
+\begin{itemize}
+\item output: $\{(cards \equiv \epsilon \Rightarrow (cards = c))\Rightarrow True)\}$
+\end{itemize}
+
+\noindent getCard(i):
+\begin{itemize}
+\item output: $cards[i]$
+\item exception:$exec := \{(foundation \equiv \epsilon \Rightarrow emtpy\_source),(i < 0 \lor i > |cards| \Rightarrow invalid_index)\} $
+\end{itemize}
+
+\noindent popCard():
+\begin{itemize}
+\item output: cards
+\item exception :$exec := (foundation \equiv \epsilon \Rightarrow emtpy\_source)$
+\end{itemize}
+
+
+
+\section* {Mover}
+
+\subsection* {Module}
+
+Mover
+
+\subsection* {Uses}
+
+Cell, Pile, Foundation
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Types}
+Mover = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+chkPileToPile & Pile & boolean & ~\\
+\hline
+pileToPile & Pile & boolean & ~\\
+\hline
+chkPileToCell & Pile, Cell & boolean & ~\\
+\hline
+pileToCell & Pile, Cell & boolean & ~\\
+\hline
+chkCellToPile & Cell,Pile & boolean &  ~\\
+\hline
+cellToPile & Cell, Pile & boolean & \\
+\hline
+chkPileToFoundation & Pile, Foundation & boolean& \\
+\hline
+
+chkPileToFoundation & Pile, Foundation & boolean& \\
+\hline
+
+pileToFoundation & Pile, Foundation & boolean& \\
+\hline
+
+chkFoundationToPile & Pile, Foundation & boolean& \\
+\hline
+
+foundationToPile & Pile, Foundation & boolean& \\
+\hline
+
+chkCellToFoundation & Cell, Foundation & boolean& \\
+\hline
+
+cellToFoundation & Cell, Foundation & boolean& \\
+\hline
+
+chkFoundationToCell & Cell, Foundation & boolean& \\
+\hline
+
+foundationToCell & Cell, Foundation & boolean& \\
+\hline
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {Access Routine Semantics}
+
+\noindent chkPileToPile(s, d)
+\begin{itemize}
+\item output: $out := (s:Pile | s \equiv \epsilon \Rightarrow false)$
+\end{itemize}
+
+
+\noindent pileToPile(s, d):
+\begin{itemize}
+\item transition s, d : = Pile, Pile
+\item output: $out := (d: Pile| (d \equiv \epsilon \Rightarrow d = s)\Rightarrow true)$  
+\end{itemize}
+
+\noindent chkPileToCell(s, d):
+\begin{itemize}
+\item output:$out := (s:Pile | s \equiv \epsilon \Rightarrow false)$
+\end{itemize}
+
+\noindent pileToCell(s, d):
+\begin{itemize}
+\item transition s, d : = Pile, Cell
+\item output: $out := \{(d: Cell| (d \equiv \epsilon \Rightarrow d = s)\Rightarrow true) \Rightarrow false\}$
+
+\end{itemize}
+
+\noindent chkCellToPile(s, d):
+\begin{itemize}
+\item output: $out := (s:Cell | s \equiv \epsilon \Rightarrow false)$
+\end{itemize}
+
+\noindent cellToPile(s, d):
+\begin{itemize}
+\item transition s, d : = Cell, Pile
+\item output: $out := \{(d: Pile| (d \equiv \epsilon \Rightarrow d = s)\Rightarrow true) \Rightarrow false\}$
+\end{itemize}
+
+\noindent chkPileToFoundation(s, d):
+\begin{itemize}
+\item output: $out := (s:Pile | s \equiv \epsilon \Rightarrow false)$
+\end{itemize}
+
+
+\noindent pileToFoundation(s, d):
+\begin{itemize}
+\item transition s, d : = Pile,Foundation
+\item output: $out := \{(d: Foundation| (d \equiv \epsilon \Rightarrow d = s)\Rightarrow true) \Rightarrow false\}$
+\end{itemize}
+
+
+\noindent chkFoundationToPile(s, d):
+\begin{itemize}
+\item output: $out := (s:Foundation | s \equiv \epsilon \Rightarrow false)$
+\end{itemize}
+
+
+\noindent foundationToPile(s, d):
+\begin{itemize}
+\item transition: s, d := Foundation, Pile
+\item output: $out := \{(d: Pile| (d \equiv \epsilon \Rightarrow d = s)\Rightarrow true) \Rightarrow false\}$
+\end{itemize}
+
+\noindent chkCellToFoundation(s, d):
+\begin{itemize}
+\item output: $out := (s:Cell | s \equiv \epsilon \Rightarrow false)$
+\end{itemize}
+
+
+\noindent cellToFoundation(s, d):
+\begin{itemize}
+\item transition: s, d := Cell, Foundation
+\item output: $out := \{(d: Foundation| (d \equiv \epsilon \Rightarrow d = s)\Rightarrow true) \Rightarrow false\}$
+\end{itemize}
+
+
+\noindent chkFoundationToCell(s, d):
+\begin{itemize}
+\item output: $out := (s:Foundation | s \equiv \epsilon \Rightarrow false)$
+\end{itemize}
+
+\noindent foundationToCell(s, d):
+\begin{itemize}
+\item transition: s, d := Foundation, Cell
+\item output: $out := \{(d: Cell| (d \equiv \epsilon \Rightarrow d = s)\Rightarrow true) \Rightarrow false\}$
+\end{itemize}
+
+
+\section* {Deck}
+
+\subsection* {Module}
+
+Deck
+
+\subsection* {Uses}
+
+Card, Cell, Foundation, Mover, Pile
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+NUM\_P = 8
+NUM\_C = 4
+NUM\_F = 4
+
+\subsubsection* {Exported Types}
+Deck = ?
+
+\subsubsection* {Exported Access Programs}
+
+\begin{tabular}{| l | l | l | l |}
+\hline
+\textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+\hline
+Deck & Cell, Foundation, Pile & ~ & ~\\
+\hline
+isPlayerWon & ~ & boolean & ~\\
+\hline
+hasValidMoves & ~ & boolean & invalid\_index\\
+\hline
+isCellEmpty & integer & boolean & invalid\_index\\
+\hline
+isPileEmpty & integer & boolean & invalid\_index\\
+\hline
+isFoundationEmpty & integer & boolean & invalid\_index \\
+\hline
+getPileSize & integer & integer & invalid\_index \\
+\hline
+
+getFoundationSize & integer & integer & invalid\_index \\
+\hline
+
+getCardFromCell & integer & Card & invalid\_index \\
+\hline
+
+getCardFromPile & integer & Card &invalid\_index \\
+\hline
+
+getCardFromFoundation & integer & Card &invalid\_index \\
+\hline
+
+chkPileToPile & integer & boolean & invalid\_index\\
+\hline
+
+pileToPile & integer & boolean & invalid\_index\\
+\hline
+
+chkPileToCell & integer & boolean & invalid\_index\\
+\hline
+
+pileToCell & integer & boolean &invalid\_index \\
+\hline
+
+chkCellToPile & integer & boolean & invalid\_index\\
+\hline
+
+cellToPile & integer & boolean &invalid\_index \\
+\hline
+
+chkPileToFoundation & integer & boolean & invalid\_index\\
+\hline
+
+pileToFoundation & integer & boolean &invalid\_index \\
+\hline
+
+chkCellToFoundation & integer & boolean & invalid\_index\\
+\hline
+
+cellToFoundation & integer & boolean & invalid\_index\\
+\hline
+
+\end{tabular}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+$cs$ :sequence of Cell
+$fs$ :sequence of Foundation
+$ps$ :sequence of Pile
+$m$ : Mover
+ 
+\subsubsection* {Access Routine Semantics}
+
+\noindent Deck()
+\begin{itemize}
+\item transition: cs, fs, ps: Cell, Foundation, Pile
+\end{itemize}
+
+
+\noindent isPlayerWon():
+\begin{itemize}
+\item output: $\{(\forall(i:\mathbb{N}|i \in 0..(len(NUM\_P)):ps[i]\lor cs[i] \not \equiv \epsilon \Rightarrow false))\Rightarrow ture)\}$  
+\end{itemize}
+
+\noindent hasValidMoves():
+\begin{itemize}
+\item output:$out :=$
+\item exception: $exce : (NUM\_P, NUM\_C, NUM\_F  = 0 \lor NUM\_P, NUM\_C, NUM\_F  < 0  \Rightarrow invalid\_index)$
+\end{itemize}
+
+\noindent isCellEmpty(i):
+\begin{itemize}
+\item output: $out := (cs:Cell|cs[i]\equiv \epsilon \Rightarrow true)$
+\item exception: $exce : (NUM\_C  = 0 \lor  NUM\_C  < 0  \Rightarrow invalid\_index)$
+
+\end{itemize}
+
+\noindent isPileEmpty( i)
+\begin{itemize}
+\item output: $out := (ps:Pile|ps[i]\equiv \epsilon \Rightarrow true)$
+\item exception: $exce : (NUM\_P  = 0 \lor NUM\_P < 0  \Rightarrow invalid\_index)$
+\end{itemize}
+
+\noindent isFoundationEmpty(i):
+\begin{itemize}
+\item output: $out := (fs:Foundation|fs[i]\equiv \epsilon \Rightarrow true)$
+\item exception: $exce : (NUM\_F  = 0 \lor NUM\_F < 0  \Rightarrow invalid\_index)$
+\end{itemize}
+
+\noindent getPileSize(i):
+\begin{itemize}
+\item output: $out := len(fs[i])$
+\item exception: $exce : (NUM\_P  = 0 \lor NUM\_P < 0  \Rightarrow invalid\_index)$
+\end{itemize}
+
+
+\noindent getFoundationSize(i):
+\begin{itemize}
+\item output: $out := len(fs[i])$
+\item exception: $exce : (NUM\_F  = 0 \lor NUM\_F < 0  \Rightarrow invalid\_index)$
+\end{itemize}
+
+
+\noindent getCardFromCell(i):
+\begin{itemize}
+\item output: $out := cs[i]$
+\item exception: $exce : (NUM\_C  = 0 \lor  NUM\_C  < 0  \Rightarrow invalid\_index)$
+\end{itemize}
+
+
+\noindent getCardFromPile(i, j):
+\begin{itemize}
+\item output: $out := ps[i][j]$
+\item exception: $exce : (NUM\_P  = 0 \lor NUM\_P < 0  \Rightarrow invalid\_index)$
+\end{itemize}
+
+\noindent getCardFromFoundation(i, j):
+\begin{itemize}
+\item output: $out := fs[i][j]$
+\item exception: $exce : (NUM\_F  = 0 \lor NUM\_F < 0  \Rightarrow invalid\_index)$
+\end{itemize}
+
+
+\subsubsection* {Local Functions}
+\noindent dealCards()
+
+
+\end {document}
