@@ -1,0 +1,16 @@
+Adjacency list solve the problem.Node represent city.Recursion solve DFS.Queue solve BFS. Dijkstra solve shortest path.
+BFS:BOSTON,NEW YORK CITY,PITTSBURGH,COLUMBUS,CHICAGO,MINNEAPOLIS
+DFS:BOSTON,NEW YORK CITY,PHILADELPHIA,BALTIMORE,WASHINGTON,CHARLOTTE,ATLANTA,NEW ORLEANS,HOUSTON,DALLAS,OKLAHOMA CITY,KANSAS CITY,ST. LOUIS,INDIANAPOLIS,COLUMBUS,CHICAGO,MINNEAPOLIS
+ShortestPath:BOSTON,NEW YORK CITY[10 Pc. Chicken Nuggets - Combo:$5.99],PITTSBURGH[McChicken - Meal:$3.79],COLUMBUS[Double Cheeseburger - Meal:$4.38],CHICAGO[Double Cheeseburgers - Meal:$5.49],MINNEAPOLIS[McChicken - Meal:$3.79]
+
+Answer for 3.2:
+DFS get the result in fewer steps and BFS get the shortest path.
+The reason of that is DFS can avoid unnecessary visits. BFS usually find the shortest path.
+
+Answer for 3.4:
+Theoretical the shortest path algorithm's time complexity is O(E+VlgV).
+But in my assignment, the complexity is more than O(E+VlgV).
+As long as the increase of city numbers and stops, the complexity will increase
+because E and V are increase. But as long as the number of restaurants increase,
+the complexity will not change that much because we want to find the minimal cost, 
+we don't care that much of the number of restaurants.
